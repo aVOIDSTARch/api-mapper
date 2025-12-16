@@ -1,0 +1,47 @@
+{
+  "name": "api-mapper",
+  "version": "1.0.0",
+  "description": "CLI tool that generates TypeScript API clients from OpenAPI specs",
+  "main": "dist/index.js",
+  "bin": {
+    "api-mapper": "dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "dev": "tsup src/index.ts --format esm --watch",
+    "start": "node dist/index.js",
+    "lint": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aVOIDSTARch/api-mapper.git"
+  },
+  "keywords": [
+    "openapi",
+    "swagger",
+    "typescript",
+    "api-client",
+    "codegen"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aVOIDSTARch/api-mapper/issues"
+  },
+  "homepage": "https://github.com/aVOIDSTARch/api-mapper#readme",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "commander": "^14.0.2",
+    "handlebars": "^4.7.8",
+    "yaml": "^2.8.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
