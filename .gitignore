@@ -134,6 +134,12 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
+# idiosyncratic files
+*.flick
+plan.flick.template
+ai-docs/
+CLAUDE.md
+
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
