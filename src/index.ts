@@ -5,7 +5,8 @@ import { join } from "node:path";
 import { Command } from "commander";
 import { fetchOpenApiSpec } from "./fetcher.js";
 import { parseOpenApiSpec, type ParsedApi } from "./parser.js";
-import { generateTypes, generateClient } from "./generator/index.js";
+import { generateTypes, generateClient, generateDocs } from "./generator/index.js";
+import { startServer } from "./server.js";
 
 /**
  * Manifest file structure for generated API clients
@@ -77,7 +78,15 @@ async function generateApiFiles(
     generatedFiles.push("client.ts");
   }
 
-  // TODO: Generate API.md
+  // Generate documentation
+  if (options.docs !== false) {
+    console.log("Generating API documentation...");
+    const docsContent = generateDocs(parsedApi, clientName);
+    const docsPath = join(outputDir, "API.md");
+    await writeFile(docsPath, docsContent, "utf-8");
+    console.log(`  ✓ API.md`);
+    generatedFiles.push("API.md");
+  }
 
   return generatedFiles;
 }
@@ -224,7 +233,7 @@ program
     }
   });
 
-// Serve command (placeholder)
+// Serve command
 program
   .command("serve")
   .description("Serve a generated API client")
@@ -232,8 +241,15 @@ program
   .option("-o, --output <dir>", "Output directory", "./api-clients")
   .option("-p, --port <port>", "Port to serve on", "3000")
   .action(async (origin: string, options) => {
-    console.log(`Serve command for ${origin} on port ${options.port}`);
-    console.log("⚠️  Server not yet implemented...");
+    const clientDir = join(options.output, origin);
+
+    try {
+      await startServer(clientDir, parseInt(options.port, 10));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`Error: ${message}`);
+      process.exit(1);
+    }
   });
 
 // Default command (generate) for backwards compatibility
