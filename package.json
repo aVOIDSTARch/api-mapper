@@ -11,7 +11,9 @@
     "build": "tsup src/index.ts --format esm --dts",
     "dev": "tsup src/index.ts --format esm --watch",
     "start": "node dist/index.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "install": "",
+    "run": ""
   },
   "repository": {
     "type": "git",
